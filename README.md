@@ -1,56 +1,150 @@
 ## Toom-Cook 3-way algorithm realisation
 
-Toom cook algorithm is the advanced approach for splitting the numbers into parts. The Actually based on the Karatsuba method by splitting each number to be multiplied
+Toom cook algorithm is the advanced approach for splitting the numbers into parts. It is based on the Karatsuba method by splitting each number to be multiplied
 into multiple parts.
 
 Algorithm improves the bit complexity of mutiplication of two large positive integers. 
 
 ### Details
 Assume that we have two integers written in terms of polynomials: \
-![equation](https://latex.codecogs.com/svg.latex?A%20%3D%20a_%7Bn-1%7D*x%5E%7Bn-1%7D&plus;%20...%20&plus;a_%7B1%7D%20*%20x%5E%7B%7D%20&plus;%20a_%7B0%7D) \
-![equation](https://latex.codecogs.com/svg.latex?B%20%3D%20b_%7Bn-1%7D*x%5E%7Bn-1%7D&plus;%20...%20&plus;b_%7B1%7D%20*%20x%5E%7B%7D%20&plus;%20b_%7B0%7D) 
+![equation](assets/1.svg) \
+![equation](assets/2.svg) 
 
-![equation](https://latex.codecogs.com/svg.latex?n%20%3D%20k%5Em%2C%20m%20%3E%200)
+![equation](assets/3.svg)
 
 As we are doing Toom-3, we choose k = 3. 
 Let the operands considered are split into 3 pieces of equal length: \
-![equation](https://latex.codecogs.com/svg.latex?p%28x%29%20%3D%20a_%7B2%7D*x%5E%7B2%7D&plus;%20a_1*x%20&plus;%20a_%7B0%7D)
-![equation](https://latex.codecogs.com/svg.latex?q%28x%29%20%3D%20b_%7B2%7D*x%5E%7B2%7D&plus;%20b_1*x%20&plus;%20b_%7B0%7D)
+![equation](assets/4.svg) \
+![equation](assets/5.svg)
+
+```python
+# P(x) = a2 * x^2 + a1 * x + a0
+a2 = a[(length * 2 // 3):                 ]
+a1 = a[  (length // 3)  :(length * 2 // 3)]
+a0 = a[                 :  (length // 3)  ]
+
+# Q(x) = b2 * x^2 + b1 * x + b0
+b2 = b[(length * 2 // 3):                 ]
+b1 = b[  (length // 3)  :(length * 2 // 3)]
+b0 = b[                 :  (length // 3)  ]
+```
 
 The purpose of defining these polynomials is that if we can compute their product: \
-![equation](https://latex.codecogs.com/svg.latex?r%28x%29%20%3D%20p%28x%29*%20q%28x%29)
-![equation](https://latex.codecogs.com/svg.latex?R%28x%29%20%3D%20r_4%20*%20x%5E4%20&plus;%20r_3%20*%20x%5E3%20&plus;%20r_2%20*%20x%5E2%20&plus;%20r_1%20*%20x%5E1%20&plus;%20r_0)
+![equation](assets/6.svg) \
+![equation](assets/7.svg)
 
 The final r(x) is calculated through the value of x, although the final step is going to be the addition.
 p(x) and q(x) are calculated and multiplied by choosing some set of points, forming r(x).
 
 In Toom-3 example, we will use the points (0, 1, −1, −2, and ∞). These choices simplify evaluation, producing the formulas: 
 
-![equation](https://latex.codecogs.com/svg.latex?p%280%29%20%3D%20m_0%20&plus;%20m_1%280%29&plus;m_2%280%29%5E2%20%3D%20m_0) \
-![equation](https://latex.codecogs.com/svg.latex?p%281%29%20%3D%20m_0%20&plus;%20m_1%281%29&plus;m_2%281%29%5E2%20%3D%20m_0%20&plus;%20m_1%20&plus;%20m_2) \
-![equation](https://latex.codecogs.com/svg.latex?p%28-1%29%20%3D%20m_0%20&plus;%20m_1%28-1%29&plus;m_2%28-1%29%5E2%20%3D%20m_0%20-%20m_1%20&plus;%20m_2) \
-![equation](https://latex.codecogs.com/svg.latex?p%28-2%29%20%3D%20m_0%20&plus;%20m_1%28-2%29&plus;m_2%28-2%29%5E2%20%3D%20m_0%20-%202m_1%20&plus;%204m_2) \
-![equation](https://latex.codecogs.com/svg.latex?p%28%5Cinfty%29%20%3D%20m_2) 
+![equation](assets/8.svg) \
+![equation](assets/9.svg) \
+![equation](assets/10.svg) \
+![equation](assets/11.svg) \
+![equation](assets/12.svg) 
 
-![equation](https://latex.codecogs.com/svg.latex?q%280%29%20%3D%20n_0&plus;n_1%280%29&plus;n_2%280%29%5E2%20%3D%20n_0) \
-![equation](https://latex.codecogs.com/svg.latex?q%281%29%20%3D%20n_0&plus;n_1%281%29&plus;n_2%281%29%5E2%20%3D%20n_0%20&plus;%20n_1%20&plus;%20n_2) \
-![equation](https://latex.codecogs.com/svg.latex?q%28-1%29%20%3D%20n_0&plus;n_1%28-1%29&plus;n_2%28-1%29%5E2%20%3D%20n_0%20-%20n_1%20&plus;%20n_2) \
-![equation](https://latex.codecogs.com/svg.latex?q%28-2%29%20%3D%20n_0&plus;n_1%28-2%29&plus;n_2%28-2%29%5E2%20%3D%20n_0%20-%202n_1%20&plus;%204n_2) \
-![equation](https://latex.codecogs.com/svg.latex?q%28%5Cinfty%29%20%3D%20n_2) 
+![equation](assets/13.svg) \
+![equation](assets/14.svg) \
+![equation](assets/15.svg) \
+![equation](assets/16.svg) \
+![equation](assets/17.svg) 
 
+```python
+# p(0) = a0, q(0) = b0
+a_0, b_0 = a0, b0
+
+# p(1) = a0 + a1 + a2, q(1) = b0 + b1 + b2
+for i in range(length // 3):
+    a_1.append(a0[i] + a1[i] + a2[i])
+    b_1.append(b0[i] + b1[i] + b2[i])
+
+# p(-1) = a0 - a1 + a1, q(1) = b0 - b1 + b2
+for i in range(length // 3):
+    a_m1.append(a0[i] - a1[i] + a2[i])
+    b_m1.append(b0[i] - b1[i] + b2[i])
+
+# p(-2) = a0 - 2 * a1 + 4 * a2, q(1) = b0 - 2 * b1 + 4 * b2
+for i in range(length // 3):
+    a_m2.append(a0[i] - (a1[i] << 1) + (a2[i] << 2))
+    b_m2.append(b0[i] - (b1[i] << 1) + (b2[i] << 2))
+
+# p(inf) = a2, q(inf) = b2
+a_inf, b_inf = a2, b2
+```
 Then: 
+![equation](assets/18.svg) \
+![equation](assets/19.svg) \
+![equation](assets/20.svg) \
+![equation](assets/21.svg) \
+![equation](assets/22.svg) 
+```python
+# c(0) = a(0) * b(0)
+c_0   = self.multiply(a_0, b_0)
+# c(1) = a(1) * b(1)
+c_1   = self.multiply(a_1, b_1)
+# c(-1) = a(-1) * b(-1)
+c_m1  = self.multiply(a_m1, b_m1)
+# c(-2) = a(-2) * b(-2)
+c_m2  = self.multiply(a_m2, b_m2)
+# c(inf) = a(inf) * b(inf)
+c_inf = self.multiply(a_inf, b_inf)
+```
 
-![equation](https://latex.codecogs.com/svg.latex?r%280%29%20%3D%20m_0%20*%20n_0) \
-![equation](https://latex.codecogs.com/svg.latex?r%281%29%20%3D%20%28m_0%20&plus;%20m_1%20&plus;%20m_2%29%20*%20%28n_0%20&plus;%20n_1%20&plus;%20n_2%29) \
-![equation](https://latex.codecogs.com/svg.latex?r%28-1%29%20%3D%20%28m_0%20-%20m_1%20&plus;%20m_2%29%20*%20%28n_0%20-%20n_1%20&plus;%20n_2%29) \
-![equation](https://latex.codecogs.com/svg.latex?r%28-2%29%20%3D%20%28m_0%20-%202m_1%20&plus;%204m_2%29%20*%20%28n_0%20-%202n_1%20&plus;%204n_2%29) \
-![equation](https://latex.codecogs.com/svg.latex?r%28%5Cinfty%29%20%3D%20m_2%20*%20n_2) 
+Furthermore, we need to determine coefficients of R(X).  
+A difficult design challenge in Toom–Cook is to find an efficient sequence of operations to compute this product; one sequence given by [Bodrato](http://www.bodrato.it/toom-cook/) for Toom-3 is the following:
 
+```python
+'''
+r0 = c(0)
+r4 = c(inf)
+r3 = (c(-2) - c(1)) // 3
+r1 = (c(1) - c(-1)) // 2
+r2 = c(-1) - c(0)
+r3 = (r2 - r3) // 2 + 2 * r4 = (-c(-2) + 3 * c(-1) - 3 * c(0)  + c(1) + 12 * c(inf)) / 6
+r2 = r2 + r1 - r4            = (3 * c(-1)) - 6 * c(0) + 3 * c(1) - 12 * c(inf)) / 6
+r1 = r1 - r3 = r1 - r3       =  (c(-2) - 6 * c(-1) + 3 * c(0) + 2 * c(1) - 12 * c(inf)) / 6
+'''
 
+# r3 = (-c(-2) + 3 * c(-1) - 3 * c(0)  + c(1) + 12 * c(inf)) / 6
+for i in range((length // 3) * 2):
+    c  = -c_m2[i]                               # - c(-2)
+    c += (c_m1[i] << 1) + c_m1[i]               # + c(-1)  * 3
+    c -= (c_0[i] << 1) + c_0[i]                 # - c(0)   * 3
+    c += c_1[i]                                 # + c(1)
+    c += (c_inf[i] << 3) + (c_inf[i] << 2)      # + c(inf) * 12 
+    c  = c // 6                                 # / 6
+    r3.append(c)    
+    
+# r2 = (3 * c(-1) - 6 * c(0) + 3 * c(1) - 6 * c(inf)) / 6
+for i in range((length // 3) * 2):              
+    c  = (c_m1[i] << 1) + c_m1[i]               # + c(-1)  * 3
+    c -= (c_0[i] << 2) + (c_0[i] << 1)          # - c(0)   * 6
+    c += (c_1[i] << 1) + c_1[i]                 # + c(1)   * 3
+    c -= (c_inf[i] << 2) + (c_inf[i] << 1)      # - c(inf) * 6
+    c  = c // 6                                 # / 6
+    r2.append(c)
+    
+# r1 = (c(-2) - 6 * c(-1) + 3 * c(0) + 2 * c(1) - 12 * c(inf)) / 6
+for i in range((length // 3) * 2):
+    c  = c_m2[i]                                # + c(-2)
+    c -= (c_m1[i] << 2) + (c_m1[i] << 1)        # - c(-1)  * 6
+    c += (c_0[i] << 1) + c_0[i]                 # + c(0)   * 3
+    c += (c_1[i] << 1)                          # + c(1)   * 2
+    c -= (c_inf[i] << 3) + (c_inf[i] << 2)      # - c(inf) * 12
+    c  = c // 6                                 # / 6
+    r1.append(c)
+
+# r0 = c(0)
+r0 = c_0
+
+# r4 = c(inf)
+r4 = c_inf 
+```
 
 ### Complexity
 
 Toom-3 running time is significally
-![equation](https://latex.codecogs.com/svg.latex?O%28n%5E%7B%5Cfrac%7Blog%285%29%7D%7Blog%283%29%7D%7D%29%20%3D%20O%28n%5E%7B1.465%7D%29), resembles 5 multiplies for 3 splits of each size.
+![equation](assets/23.svg), resembles 5 multiplies for 3 splits of each size.
 
-This is an advance over Karatsuba algorithm which runs at ![equation](https://latex.codecogs.com/svg.latex?O%28n%5E%7B%5Cfrac%7Blog%283%29%7D%7Blog%282%29%7D%7D%29%20%3D%20O%28n%5E%7B1.585%7D%29)
+This is an advance over Karatsuba algorithm which runs at ![equation](assets/23.svg)
