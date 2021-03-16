@@ -6,14 +6,16 @@ into multiple parts.
 Algorithm improves the bit complexity of mutiplication of two large positive integers. 
 
 ### Details
-Assume that we have two integers written in terms of polynomials: \
+Assume that we have two integers written in terms of polynomials: 
+
 ![equation](assets/1.svg) \
 ![equation](assets/2.svg) 
 
 ![equation](assets/3.svg)
 
 As we are doing Toom-3, we choose k = 3. 
-Let the operands considered are split into 3 pieces of equal length: \
+Let the operands considered are split into 3 pieces of equal length: 
+
 ![equation](assets/4.svg) \
 ![equation](assets/5.svg)
 
@@ -29,7 +31,8 @@ b1 = b[  (length // 3)  :(length * 2 // 3)]
 b0 = b[                 :  (length // 3)  ]
 ```
 
-The purpose of defining these polynomials is that if we can compute their product: \
+The purpose of defining these polynomials is that if we can compute their product: 
+
 ![equation](assets/6.svg) \
 ![equation](assets/7.svg)
 
@@ -73,6 +76,7 @@ for i in range(length // 3):
 a_inf, b_inf = a2, b2
 ```
 Then: 
+
 ![equation](assets/18.svg) \
 ![equation](assets/19.svg) \
 ![equation](assets/20.svg) \
