@@ -26,5 +26,5 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Testing
       run: |
-        python toom-cook-3-algorithm-tests.py
+        python toom_cook_3_algorithm_tests.py
 
